@@ -23,5 +23,18 @@ namespace SgkPersonelActionApp.Models
         public string KismiSureliCalisiyormu { get; set; }
         public short KismiSureliCalismaGunSayisi { get; set; }
         public long TcKimlikNo { get; internal set; }
+        public SgkPeriod BulunduguDonem { get; set; }
+        public SgkPeriod OncekiDonem { get; set; }
+        public string NakilGidecegiIsyeriSicil { get; set; }
+
+    }
+    public class SgkPeriod
+    {
+        public short Belgeturu { get; set; }
+        public double HakedilenUcret { get; set; }
+        public double PrimIkramiye { get; set; }
+        public short EksikGunsayisi { get; set; }
+        public short EksikgunNedeni { get; set; }
+
     }
 }
