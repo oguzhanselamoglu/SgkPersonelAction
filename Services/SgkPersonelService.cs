@@ -2,6 +2,7 @@
 using SgkPersonelActionApp.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
@@ -61,6 +62,34 @@ namespace SgkPersonelActionApp.Services
                 response.Message = sorguSonuc.tckimlikNoileiseGirisSorgulaReturn.hataAciklama;
             }
             return response;
+        }
+
+        public async Task<ActionResponse<Stream>> GetPersonelPdf(SgkParameter parameter, long referanceCode)
+        {
+            var response = ActionResponse<Stream>.Success(200);
+            var kullaniciBilgileri = new kullaniciBilgileri
+            {
+                isyeriKodu = parameter.IsyeriKodu,
+                isyeriSicil = parameter.IsyeriSicil,
+                isyeriSifre = parameter.IsyeriSifre,
+                kullaniciAdi = parameter.KullaniciAdi,
+                sistemSifre = parameter.SistemSifre
+            };
+
+
+            var result = await _client.iseGirisPdfDokumAsync(kullaniciBilgileri, referanceCode);
+            if (result.iseGirisPdfDokumReturn.hatakodu != 0)
+            {
+                response.Message = result.iseGirisPdfDokumReturn.hataAciklama;
+                response.ResponseType = ResponseType.Error;
+                return response;
+            }
+            var data = result.iseGirisPdfDokumReturn.pdfByteArray;
+            response.Data = File.Create(@"F:\deneme.pdf");
+            response.Data.Write(data, 0, data.Length);
+
+            return response;
+
         }
 
         public async Task<ActionResponse<List<SgkResult>>> SendAsync(SgkParameter parameter, List<SgkPersonel> personels)

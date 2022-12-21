@@ -15,7 +15,11 @@ var param = new SgkParameter
     IsyeriSicil = "",
 
 };
-
+var response = await service.GetPersonelPdf(param, 6276);
+if (response.ResponseType == ResponseType.Ok)
+{
+    Console.WriteLine("Kaydedildi");
+}
 //var response = await service.CheckPersonel(param, 11111111111);
 //if (response.ResponseType ==ResponseType.Ok)
 //{
@@ -23,32 +27,32 @@ var param = new SgkParameter
 //}
 
 
-List<SgkPersonel> personels = new List<SgkPersonel>
-{
-     new SgkPersonel
-    {
-        TcKimlikNo=11111111111,
-         Ad="Oğuzhan",
-         Soyad="Selamoğlu",
-         GirisTarihi="15.11.2022",
-         SigortaliTuru=0,
-         GorevKodu="02",
-         MeslekKodu="0000.00",
-         CsgbisKolu="18",
-         EskiHukumlu="H",
-         Ozurlu="H",
-         OgrenimKodu="5",
-         MezuniyetBolumu="TEST",
-         MezuniyetYili=2006,
-         KismiSureliCalisiyormu="H",
-         KismiSureliCalismaGunSayisi=0
-    }
-};
-var response = await service.SendAsync(param, personels);
-if (response.ResponseType == ResponseType.Ok)
-{
-    response.Data.ForEach(x =>
-    {
-        Console.WriteLine(x.TckimlikNo);
-    });
-}
+//List<SgkPersonel> personels = new List<SgkPersonel>
+//{
+//     new SgkPersonel
+//    {
+//        TcKimlikNo=11111111111,
+//         Ad="Oğuzhan",
+//         Soyad="Selamoğlu",
+//         GirisTarihi="15.11.2022",
+//         SigortaliTuru=0,
+//         GorevKodu="02",
+//         MeslekKodu="0000.00",
+//         CsgbisKolu="18",
+//         EskiHukumlu="H",
+//         Ozurlu="H",
+//         OgrenimKodu="5",
+//         MezuniyetBolumu="TEST",
+//         MezuniyetYili=2006,
+//         KismiSureliCalisiyormu="H",
+//         KismiSureliCalismaGunSayisi=0
+//    }
+//};
+//var response = await service.SendAsync(param, personels);
+//if (response.ResponseType == ResponseType.Ok)
+//{
+//    response.Data.ForEach(x =>
+//    {
+//        Console.WriteLine(x.TckimlikNo);
+//    });
+//}

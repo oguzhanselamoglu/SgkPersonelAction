@@ -20,6 +20,33 @@ namespace SgkPersonelActionApp.Services
             throw new NotImplementedException();
         }
 
+        public async Task<ActionResponse<Stream>> GetPersonelPdf(SgkParameter parameter, long referanceCode)
+        {
+            var response = ActionResponse<Stream>.Success(200);
+            var kullaniciBilgileri = new kullaniciBilgileri
+            {
+                isyeriKodu = parameter.IsyeriKodu,
+                isyeriSicil = parameter.IsyeriSicil,
+                isyeriSifre = parameter.IsyeriSifre,
+                kullaniciAdi = parameter.KullaniciAdi,
+                sistemSifre = parameter.SistemSifre
+            };
+
+
+            var result = await _client.istenCikisPdfDokumAsync(kullaniciBilgileri, referanceCode);
+            if (result.istenCikisPdfDokumReturn.hatakodu != 0)
+            {
+                response.Message = result.istenCikisPdfDokumReturn.hataAciklama;
+                response.ResponseType = ResponseType.Error;
+                return response;
+            }
+            var data = result.istenCikisPdfDokumReturn.pdfByteArray;
+            response.Data = File.Create(@"F:\deneme2.pdf");
+            response.Data.Write(data, 0, data.Length);
+
+            return response;
+        }
+
         public async Task<ActionResponse<List<SgkResult>>> SendAsync(SgkParameter parameter, List<SgkPersonel> personels)
         {
             var response = ActionResponse<List<SgkResult>>.Success(200);

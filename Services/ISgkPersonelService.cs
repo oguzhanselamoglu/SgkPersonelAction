@@ -11,5 +11,6 @@ namespace SgkPersonelActionApp.Services
     {
         Task<ActionResponse<List<SgkResult>>> SendAsync(SgkParameter parameter,List<SgkPersonel> personels);
         Task<ActionResponse<SgkResult>> CheckPersonel(SgkParameter parameter, long tcKimlikNo);
+        Task<ActionResponse<Stream>> GetPersonelPdf(SgkParameter parameter, long referanceCode);
     }
 }
